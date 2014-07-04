@@ -139,8 +139,12 @@ var Game = function () {
 
         var sphereScale = 1;
 
-        var sphere = addEntity(models.sphere, textures.solid, [0, 3, 0], { shininess: 0.75 }, { type: "sphere", radius: sphereScale, velocity: [0, 0, 0] });
 
+        addEntity(models.sphere, textures.solid, [10, 10, 0], { shininess: 0.75 }, { type: "sphere", radius: sphereScale, velocity: [0, 0, 0] });
+        addEntity(models.sphere, textures.solid, [5, 10, 5], { shininess: 0.75 }, { type: "sphere", radius: sphereScale, velocity: [0, 0, 0] });
+
+
+        var sphere = addEntity(models.sphere, textures.solid, [0, 3, 0], { shininess: 0.75 }, { type: "sphere", radius: sphereScale, velocity: [0, 0, 0] });
         graphics.setFocus(sphere.graphics);
 
         var mapScale = 1;
@@ -267,15 +271,13 @@ var Game = function () {
             }
         };
 
-        // Draw some flying teapots just to highlight the fact that I can
-        var smallTeapot = models.teapot.scale([0.1]);
-        addEntity(smallTeapot, textures.solid, [-8, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 0.2 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-        addEntity(smallTeapot, textures.solid, [0, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 0.5 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-        addEntity(smallTeapot, textures.solid, [8, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 1 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-
         var goal = addEntity(models.block.scale([0.5]), textures.cubeDims, [0, -2, 0], { tint: [1, 1, 1, 1] }, { stationary: true, type: "box", halfSize: [0.5, 0.5, 0.5] });
 
-        goal.physics.addCollisionEvent(function () {
+        goal.physics.addCollisionEvent(function (collidee) {
+            if (collidee != sphere) {
+                return;
+            }
+
             loadLevel2();
         });
     }
