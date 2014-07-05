@@ -2,7 +2,7 @@ function Physics() {
     var lastUpdateTime = 0;
 
     var entities = [];
-
+    var stationaryParts = [];
     var movingParts = [];
 
     var collisionDamping = 0.5;
@@ -27,37 +27,65 @@ function Physics() {
 
         processCollisions();
 
+
+
         for (var i = 0; i < movingParts.length; i++) {
             movingParts[i].accelerate(gravity, timeDelta);
         }
+
     }
 
-
     function processCollisions() {
+        // Moving parts and moving parts collisions
+        for (var i = 0; i < movingParts.length; i++) {
+            var a = movingParts[i];
+
+            for (var j = i + 1; j < movingParts.length; j++) {
+                var b = movingParts[j];
+
+                var collision = detectCollision(a, b);
+
+                if (collision) {
+                    // Dispatch collision events
+                    a.collision(b);
+                    b.collision(a);
+                }
+            }
+        }
+
+
+        // Moving parts and stationaries collisions
         for (var i = 0; i < movingParts.length; i++) {
             var movingPart = movingParts[i];
 
-            for (var j = 0; j < entities.length; j++) {
-                var entity = entities[j];
+            for (var j = 0; j < stationaryParts.length; j++) {
+                var stationaryPart = stationaryParts[j];
 
-                // Things can't collide with themselves
-                if (movingPart === entity) continue;
-
-                var collision = detectCollision(movingPart, entity);
+                var collision = detectCollision(movingPart, stationaryPart);
 
                 if (collision) {
-                    // Update velocities
-                    entity.sharedProperties.colliding = 100;
-
                     // Dispatch collision events
-                    entity.collision(movingPart);
-                    movingPart.collision(entity);
-                }
-                else {
-                    entity.sharedProperties.colliding -= 1;
+                    stationaryPart.collision(movingPart);
+                    movingPart.collision(stationaryPart);
                 }
             }
 
+        }
+
+        // Moving parts and world edge collisions
+        for (var i = 0; i < movingParts.length; i++) {
+            var part = movingParts[i];
+
+            for (var j = 0; j < 3; j++) {
+                if (part.position[j] < -10) {
+                    part.position[j] = -10;
+                    part.velocity[j] = Math.abs(part.velocity[j]) * collisionDamping;
+                }
+                if (part.position[j] > 10) {
+                    part.position[j] = 10;
+                    part.velocity[j] = -Math.abs(part.velocity[j]) * collisionDamping;
+                }
+            }
         }
     }
 
@@ -132,6 +160,9 @@ function Physics() {
         vec3.subtract(tangentVelocity, velocityVector, inlineVelocity);
         vec3.scale(inlineVelocity, inlineVelocity, collisionDamping);
 
+
+        console.log(velocityVector, vec3.add(vec3.create(), inlineVelocity, tangentVelocity));
+
         return [inlineVelocity, tangentVelocity];
     }
 
@@ -139,34 +170,48 @@ function Physics() {
         var gap = vec3.subtract(vec3.create(), a.position, b.position);
 
         var displacement = vec3.length(gap);
-        var separation = displacement - (a.radius + b.radius);
+        var sumRadius = a.radius + b.radius;
+        var separation = displacement - sumRadius;
 
-        // If the spheres are separated, there is no collision.
-        if (separation > 0) {
-            return false;
-        }
-
-        // The spheres are colliding, let's roll
         var normal = vec3.normalize(vec3.create(), gap);
 
-        var aComponents = calcVectorComponents(a.velocity, normal);
-        var bComponents = calcVectorComponents(b.velocity, normal);
+        // If the spheres are separated, there is no collision.
+        if (separation <= 0) {
+            // The spheres are colliding, let's roll
 
-        var inlineVelocity = vec3.add(vec3.create(), aComponents[0], bComponents[0]);
-        vec3.scale(inlineVelocity, inlineVelocity, 0.5);
+            var aComponents = calcVectorComponents(a.velocity, normal);
+            var bComponents = calcVectorComponents(b.velocity, normal);
 
-        vec3.add(a.velocity, aComponents[1], inlineVelocity);
-        vec3.sub(b.velocity, bComponents[1], inlineVelocity);
+            var inlineVelocity = vec3.add(vec3.create(), aComponents[0], bComponents[0]);
 
-        vec3.add(a.position, b.position, vec3.scale(vec3.create(), normal, (a.radius + b.radius)));
+            vec3.add(a.velocity, aComponents[1], inlineVelocity);
+            vec3.sub(b.velocity, bComponents[1], inlineVelocity);
 
-        return true;
+
+            vec3.add(a.position, b.position, vec3.scale(vec3.create(), normal, sumRadius * 1.01));
+        }
+
+        var repulsion = (separation <= sumRadius) ? 0.2 : -0.1;
+        repulsion *= 10/Math.max(0.01, displacement);
+
+
+        repulsion *= 0.001;
+
+        var repulsionForce = vec3.scale(vec3.create(), normal, repulsion);
+
+        vec3.add(a.velocity, a.velocity, repulsionForce);
+        vec3.sub(b.velocity, b.velocity, repulsionForce);
+
+        return separation <= 0;
     }
 
     function addEntity(entity) {
         entities.push(entity);
 
-        if (!entity.stationary) {
+        if (entity.stationary) {
+            stationaryParts.push(entity);
+        }
+        else {
             movingParts.push(entity);
         }
     }
