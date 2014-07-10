@@ -32,9 +32,9 @@ gulp.task('vendors', function() {
 
 gulp.task('scripts', function() {
     return gulp.src('src/js/**/*.js*')
+        .pipe(traceur({sourceMap: true}))
 //        .pipe(jshint('.jshintrc'))
 //        .pipe(jshint.reporter('default'))
-        .pipe(traceur({sourceMap: true}))
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
 //        .pipe(rename({suffix: '.min'}))

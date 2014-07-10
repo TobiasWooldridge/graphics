@@ -124,11 +124,8 @@ function Physics() {
         sphere.position[maxIdx] = box.position[maxIdx] + sign * (sphere.radius + box.halfSize[maxIdx]);
 
         // Update the sphere's collision
-        var vr = vec3.create(), vt = vec3.create();
-        vec3.scale(vr, normal, vec3.dot(normal, sphere.velocity));
-        vec3.subtract(vt, sphere.velocity, vr);
-        vec3.scale(vr, vr, collisionDamping);
-        vec3.sub(sphere.velocity, vt, vr);
+        var vComponents = calcVectorComponents(sphere.velocity, normal);
+        vec3.sub(sphere.velocity, vComponents[1], vComponents[0]);
 
         return true;
     }
@@ -140,9 +137,6 @@ function Physics() {
         vec3.scale(inlineVelocity, collisionNormal, vec3.dot(collisionNormal, velocityVector));
         vec3.subtract(tangentVelocity, velocityVector, inlineVelocity);
         vec3.scale(inlineVelocity, inlineVelocity, collisionDamping);
-
-
-        console.log(velocityVector, vec3.add(vec3.create(), inlineVelocity, tangentVelocity));
 
         return [inlineVelocity, tangentVelocity];
     }
