@@ -42,6 +42,13 @@ var Graphics = function Graphics() {
         gl.uniformMatrix4fv(shaderProgram.pUniform, false, new Float32Array(perspectiveMatrix));
     }
 
+
+    function getDrawPosition(pos) {
+        var mv = mat4.translate(mat4.create(), mvMatrix, pos);
+        var vec = mat4.mul(mat4.create(), perspectiveMatrix, mv);
+        return vec.subarray(12, 15);
+    }
+
     function draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -50,17 +57,10 @@ var Graphics = function Graphics() {
             return -1 * x;
         }));
 
-
         if (blending) {
-            function getFinalPosition(pos) {
-                var mv = mat4.translate(mat4.create(), mvMatrix, pos);
-                var vec = mat4.mul(mat4.create(), perspectiveMatrix, mv);
-                return vec.subarray(12, 15);
-            }
-
             entities.sort(function (a, b) {
-                var ad = vec3.squaredLength(getFinalPosition(a.position));
-                var bd = vec3.squaredLength(getFinalPosition(b.position));
+                var ad = vec3.squaredLength(getDrawPosition(a.position));
+                var bd = vec3.squaredLength(getDrawPosition(b.position));
 
                 return bd - ad;
             });

@@ -1,4 +1,4 @@
-if (window.performance == undefined) {
+if (window.performance === undefined) {
     window.performance = {};
     window.performance.now = function now() {
         return new Date().getTime();
@@ -44,7 +44,7 @@ var _ = {
                 return function () {
                     // arguments are params, so closure bussiness is avoided.
                     return accumulator(arguments, sa.slice(0), n);
-                }
+                };
             }
         }
 

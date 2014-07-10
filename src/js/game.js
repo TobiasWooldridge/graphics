@@ -26,7 +26,7 @@ var Game = function () {
         var graphicsEnd = window.performance.now();
 
         // Process general events
-        if (levelTick != undefined) {
+        if (levelTick !== undefined) {
             levelTick();
         }
 
@@ -113,7 +113,7 @@ var Game = function () {
         }, false);
 
         document.getElementById("blend").addEventListener("change", function () {
-            graphics.setBlending(document.getElementById("blend").checked)
+            graphics.setBlending(document.getElementById("blend").checked);
         });
     }
 
@@ -199,7 +199,7 @@ var Game = function () {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
-        for (var i = 0; i < map.length; i++) {
+        for (i = 0; i < map.length; i++) {
             addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
@@ -227,7 +227,7 @@ var Game = function () {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
-        for (var i = 0; i < map.length; i++) {
+        for (i = 0; i < map.length; i++) {
             addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
@@ -255,7 +255,7 @@ var Game = function () {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
-        for (var i = 0; i < map.length; i++) {
+        for (i = 0; i < map.length; i++) {
             addEntity(models.cube, textures.box, map[i], { }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
@@ -293,5 +293,5 @@ var Game = function () {
 
     return {
         start: start
-    }
+    };
 };

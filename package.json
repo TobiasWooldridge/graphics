@@ -1,33 +1,35 @@
 {
-    "name": "Vector.xyz",
-    "version": "0.0.0",
-    "description": "",
-    "main": "",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/TobiasWooldridge/graphics.git"
-    },
-    "author": "Tobias Wooldridge <tobias@wooldridge.id.au>",
-    "license": "Copyright",
-    "bugs": {
-        "url": "https://github.com/TobiasWooldridge/graphics/issues"
-    },
-    "homepage": "https://github.com/TobiasWooldridge/graphics",
-    "dependencies": {
-        "gulp": "~3.8.2",
-        "gulp-rename": "~1.2.0",
-        "gulp-clean": "~0.3.1",
-        "gulp-minify-css": "~0.3.5",
-        "gulp-concat": "~2.2.0",
-        "gulp-uglify": "~0.3.1",
-        "gulp-notify": "~1.4.0",
-        "gulp-cache": "~0.2.0",
-        "gulp-jshint": "~1.6.3",
-        "gulp-react": "~0.4.0",
-        "gulp-imagemin": "~0.6.1",
-        "gulp-less": "~1.2.4"
-    }
+  "name": "Vector.xyz",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TobiasWooldridge/graphics.git"
+  },
+  "author": "Tobias Wooldridge <tobias@wooldridge.id.au>",
+  "license": "Copyright",
+  "bugs": {
+    "url": "https://github.com/TobiasWooldridge/graphics/issues"
+  },
+  "homepage": "https://github.com/TobiasWooldridge/graphics",
+  "dependencies": {
+    "gulp": "~3.8.2",
+    "gulp-rename": "~1.2.0",
+    "gulp-clean": "~0.3.1",
+    "gulp-minify-css": "~0.3.5",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.3.1",
+    "gulp-notify": "~1.4.0",
+    "gulp-cache": "~0.2.0",
+    "gulp-jshint": "~1.6.3",
+    "gulp-react": "~0.4.0",
+    "gulp-imagemin": "~0.6.1",
+    "gulp-less": "~1.2.4",
+    "gulp-traceur": "~0.8.0",
+    "gulp-connect": "~2.0.6"
+  }
 }

@@ -43,7 +43,7 @@ var loader = (function () {
                 else if (label == 'f') {
                     buffersByLabels[label].push(vector[0], vector[1], vector[2]);
                 }
-                else if (buffersByLabels[label] != undefined) {
+                else if (buffersByLabels[label] !== undefined) {
                     buffersByLabels[label].push([vector[0], vector[1], vector[2]]);
                 }
             }
@@ -54,7 +54,7 @@ var loader = (function () {
 
         // HANDLE LOADING OF MODELS THAT MATCH MY OWN DODGY SPEC
         if (facesBuffer[0].split("/").length == 1) {
-            for (var i = 0; i < vertexBuffer.length; i++) {
+            for (i = 0; i < vertexBuffer.length; i++) {
                 _.pushAll(vertices, vertexBuffer[i]);
                 _.pushAll(vertexNormals, vertexNormalsBuffer[i]);
                 _.pushAll(vertexTextureCoords, vertexTextureCoordsBuffer[i]);
@@ -68,7 +68,7 @@ var loader = (function () {
         else {
             var triangles = 0;
 
-            for (var i = 0; i < facesBuffer.length; i++) {
+            for (i = 0; i < facesBuffer.length; i++) {
                 var face = facesBuffer[i].split("/").map(function (x) {
                     return (+x) - 1;
                 });

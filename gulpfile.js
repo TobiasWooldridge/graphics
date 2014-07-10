@@ -6,7 +6,9 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     notify = require('gulp-notify'),
     imagemin = require('gulp-imagemin'),
-    less = require('gulp-less');
+    less = require('gulp-less'),
+    traceur = require('gulp-traceur'),
+    connect = require('gulp-connect');
 
 gulp.task('styles', function() {
     return gulp.src('src/css/*.*ss')
@@ -15,7 +17,8 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('dist/css'))
         .pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest('dist/css'))
+        .pipe(connect.reload());
 });
 
 gulp.task('vendors', function() {
@@ -23,23 +26,27 @@ gulp.task('vendors', function() {
         .pipe(gulp.dest('dist/vendor/js'))
         .pipe(rename({suffix: '.min'}))
         .pipe(uglify())
-        .pipe(gulp.dest('dist/vendor/js'));
+        .pipe(gulp.dest('dist/vendor/js'))
+        .pipe(connect.reload());
 });
 
 gulp.task('scripts', function() {
     return gulp.src('src/js/**/*.js*')
 //        .pipe(jshint('.jshintrc'))
 //        .pipe(jshint.reporter('default'))
+//        .pipe(traceur({sourceMap: true}))
         .pipe(gulp.dest('dist/js'))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist/js'));
+        .pipe(connect.reload());
+//        .pipe(rename({suffix: '.min'}))
+//        .pipe(uglify())
+//        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('textures', function() {
     return gulp.src('src/textures/**/*')
         .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
-        .pipe(gulp.dest('dist/textures'));
+        .pipe(gulp.dest('dist/textures'))
+        .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
@@ -61,7 +68,14 @@ gulp.task('default', ['clean'], function() {
     return gulp.start('html', 'styles', 'scripts', 'vendors', 'textures', 'objects');
 });
 
-gulp.task('watch', function() {
+gulp.task('connect', function() {
+    connect.server({
+        root: 'dist',
+        livereload: true
+    });
+});
+
+gulp.task('watch', ['connect'], function() {
     gulp.watch('src/css/**/*', ['styles']);
     gulp.watch('src/js/**/*', ['scripts']);
     gulp.watch('src/textures/**/*', ['textures']);
