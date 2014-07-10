@@ -126,7 +126,7 @@ var Game = function () {
             var lumVariance = 0.15;
             var lum = Math.random() * lumVariance + (1 - lumVariance);
 
-            return [lum, lum, lum, 0.75];
+            return [lum, lum, 1, 0.75];
         }
 
         function createMap(halfSize, off, map) {
