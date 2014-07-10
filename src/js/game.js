@@ -126,7 +126,21 @@ var Game = function () {
             var lumVariance = 0.15;
             var lum = Math.random() * lumVariance + (1 - lumVariance);
 
-            return [lum, lum, 1, 0.75];
+            return [lum, lum, lum, 0.75];
+        }
+
+        function placeBox(offset) {
+            var entity = addEntity(models.cube,
+                textures.box,
+                offset,
+                { tint : randTint() },
+                { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
+
+            entity.physics.addCollisionEvent(function() {
+                entity.properties.colliding = _.now();
+            });
+
+            return entity;
         }
 
         function createMap(halfSize, off, map) {
@@ -151,10 +165,7 @@ var Game = function () {
         graphics.setFocus(sphere.graphics);
 
         var mapScale = 1;
-
-        var map;
-
-        map = createMap(mapScale, [0, -6, 0],
+        createMap(mapScale, [0, -6, 0],
             [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
@@ -177,12 +188,9 @@ var Game = function () {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            ]);
-        for (var i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
+            ]).map(placeBox);
 
-        map = createMap(mapScale, [0, -4, 0],
+        createMap(mapScale, [0, -4, 0],
             [
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -205,10 +213,7 @@ var Game = function () {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            ]);
-        for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
+            ]).map(placeBox);
 
         map = createMap(mapScale, [0, -2, 0],
             [
@@ -233,10 +238,7 @@ var Game = function () {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            ]);
-        for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
+            ]).map(placeBox);
 
         map = createMap(mapScale, [0, 0, 0],
             [
@@ -261,10 +263,7 @@ var Game = function () {
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            ]);
-        for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
+            ]).map(placeBox);
 
 
         // Restart level if player falls off board

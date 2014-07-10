@@ -49,5 +49,9 @@ var _ = {
         }
 
         return accumulator([], sa, n);
+    },
+
+    now : function() {
+        return window.performance.now();
     }
 };

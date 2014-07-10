@@ -52,6 +52,10 @@ var Graphics = function Graphics() {
     function draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+
+        var glowDuration = 1000;
+        var now = _.now();
+
         loadCameraMatrix();
         mvTranslate(focus.position.map(function (x) {
             return -1 * x;
@@ -71,7 +75,6 @@ var Graphics = function Graphics() {
         var tint;
 
         // Draw all entities
-
         for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
             var entity = entities[entityIndex];
 
@@ -101,11 +104,16 @@ var Graphics = function Graphics() {
 
                 tint = entity.tint.slice();
 
-                if (entity.sharedProperties.colliding > 0) {
-                    var glow = Math.max(entity.sharedProperties.colliding, 1) / 100;
-                    tint[0] += glow;
-                    tint[1] -= glow / 2;
-                    tint[2] -= glow / 2;
+
+                if (entity.sharedProperties.colliding !== undefined) {
+                    var timeSinceCollision = now - entity.sharedProperties.colliding;
+
+                    if (timeSinceCollision < glowDuration) {
+                        var glow = (glowDuration - timeSinceCollision)/glowDuration;
+                        tint[0] += glow;
+                        tint[1] -= glow / 2;
+                        tint[2] -= glow / 2;
+                    }
                 }
 
                 gl.uniform4f(shaderProgram.tintUniform, tint[0], tint[1], tint[2], blending ? tint[3] : 1);
