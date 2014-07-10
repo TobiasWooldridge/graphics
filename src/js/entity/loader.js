@@ -69,9 +69,7 @@ var loader = (function () {
             var triangles = 0;
 
             for (i = 0; i < facesBuffer.length; i++) {
-                var face = facesBuffer[i].split("/").map(function (x) {
-                    return (+x) - 1;
-                });
+                var face = facesBuffer[i].split("/").map(x => (+x) - 1);
 
                 // Complex faces are either just vertex
                 vertexIndices.push(triangles++);

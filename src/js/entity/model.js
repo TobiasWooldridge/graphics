@@ -117,7 +117,7 @@ var Model = (function() {
         return createModel(a.name,
             a.vertices.concat(b.vertices),
             // We need to shift the vertex indices, otherwise they'll point to the preceding indices
-            a.vertexIndices.concat(b.vertexIndices.map(function(x) { return x + a.vertices.length/3 })),
+            a.vertexIndices.concat(b.vertexIndices.map(x => x + a.vertices.length/3)),
             a.vertexNormals.concat(b.vertexNormals),
             a.vertexTextureCoords.concat(b.vertexTextureCoords)
         )

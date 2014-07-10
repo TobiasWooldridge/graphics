@@ -34,7 +34,7 @@ gulp.task('scripts', function() {
     return gulp.src('src/js/**/*.js*')
 //        .pipe(jshint('.jshintrc'))
 //        .pipe(jshint.reporter('default'))
-//        .pipe(traceur({sourceMap: true}))
+        .pipe(traceur({sourceMap: true}))
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
 //        .pipe(rename({suffix: '.min'}))
