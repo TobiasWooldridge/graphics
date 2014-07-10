@@ -17,13 +17,13 @@ function createPhysicsEntity(baseEntity, properties) {
             this.velocity[1] += acceleration[1] * (time / 500);
             this.velocity[2] += acceleration[2] * (time / 500);
         },
-        collision: function () {
+        collision: function (collidee) {
             if (!callbacks.length) {
                 return;
             }
 
             for (var i = 0; i < callbacks.length; i++) {
-                callbacks[i]();
+                callbacks[i](collidee);
             }
         },
         addCollisionEvent: function (e) {
