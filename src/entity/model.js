@@ -11,12 +11,12 @@ var Model = (function() {
 
         // Check there is the correct number of normals specified
         if (model.vertices.length != model.vertexNormals.length) {
-            throw ("Illegal number of vertex normals for model", model);
+            throw ("Illegal number of vertex normals for model" + model);
         }
 
         // Check there is the correct number of colors specified
         if (model.vertices.length/3 != model.vertexTextureCoords.length/2) {
-            throw ("Illegal number of texture coords for model", model);
+            throw ("Illegal number of texture coords for model" + model);
         }
 
         return model;

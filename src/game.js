@@ -267,89 +267,11 @@ var Game = function () {
             }
         };
 
-        // Draw some flying teapots just to highlight the fact that I can
-        var smallTeapot = models.teapot.scale([0.1]);
-        addEntity(smallTeapot, textures.solid, [-8, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 0.2 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-        addEntity(smallTeapot, textures.solid, [0, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 0.5 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-        addEntity(smallTeapot, textures.solid, [8, 8, 0], { tint: [1, 1, 1, 0.5], shininess: 1 }, { stationary: true, type: "box", halfSize: [1, 1, 1] });
-
-        var goal = addEntity(models.block.scale([0.5]), textures.cubeDims, [0, -2, 0], { tint: [1, 1, 1, 1] }, { stationary: true, type: "box", halfSize: [0.5, 0.5, 0.5] });
-
-        goal.physics.addCollisionEvent(function () {
-            loadLevel2();
-        });
-    }
-
-    // Automagically generate a level using maze.js
-    function loadLevel2() {
-        graphics.reset();
-        physics.reset();
-
-        function createPlane(w, h) {
-
-            var plane = [];
-            for (var r = 0; r < h; r++) {
-                var row = [];
-                for (var c = 0; c < w; c++) {
-                    row.push(true);
-                }
-                plane.push(row);
-            }
-
-            return plane;
-        }
-
-        function createMap(halfSize, off, map) {
-            var size = halfSize * 2;
-            var offsets = [];
-
-            for (var i = 0; i < map.length; i++) {
-                for (var j = 0; j < map[i].length; j++) {
-                    if (map[i][j]) {
-                        offsets.push([off[0] + i * size, off[1] + size, off[2] + j * size]);
-                    }
-                }
-            }
-
-            return offsets;
-        }
-
-
-        var dimensions = [30, 30];
-
-        var start = [1, 1];
-        var end = [28, 28];
-
-        var sphereScale = 0.9;
-        var sphere = addEntity(models.sphere.scale([0.95]), textures.solid, [start[0], 2, start[1]], { shininess: 0.75 }, { type: "sphere", radius: sphereScale, velocity: [0, 0, 0] });
-
-        graphics.setFocus(sphere);
-
-        var mapScale = 1;
-
-        var map = createMap(mapScale, [0, -2, 0], createPlane(dimensions[0], dimensions[1]));
-        for (var i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
-
-        map = createMap(mapScale, [0, 0, 0], maze.generateMaze(maze.Point(start[0], start[1]), maze.Point(end[0], end[1]), dimensions[0], dimensions[1]));
-        for (var i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
-        }
-
-        // Restart level if player falls off board
-        levelTick = function level2Tick() {
-            if (vec3.distance(sphere.position, [0, 0, 0]) > 100) {
-                loadLevel2();
-            }
-        };
-
-
-        var goal = addEntity(models.cube.scale([0.5]), textures.box, [end[0] * 2, 2, end[1] * 2], { tint: [1, 1, 0, 1] }, { stationary: true, type: "box", halfSize: [0, 0, 0] });
-
-        goal.physics.addCollisionEvent(function () {
-            loadLevel2();
-        });
+//        var goal = addEntity(models.block.scale([0.5]), textures.cubeDims, [0, -2, 0], { tint: [1, 1, 1, 1] }, { stationary: true, type: "box", halfSize: [0.5, 0.5, 0.5] });
+//
+//        goal.physics.addCollisionEvent(function () {
+//            loadLevel2();
+//        });
     }
 
     function start(m, images) {
