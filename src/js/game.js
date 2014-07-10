@@ -122,6 +122,13 @@ var Game = function () {
         graphics.reset();
         physics.reset();
 
+        function randTint() {
+            var lumVariance = 0.15;
+            var lum = Math.random() * lumVariance + (1 - lumVariance);
+
+            return [lum, lum, lum, 0.75];
+        }
+
         function createMap(halfSize, off, map) {
             var size = halfSize * 2;
             var offsets = [];
@@ -172,7 +179,7 @@ var Game = function () {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ]);
         for (var i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
+            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
         map = createMap(mapScale, [0, -4, 0],
@@ -200,7 +207,7 @@ var Game = function () {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
         for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
+            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
         map = createMap(mapScale, [0, -2, 0],
@@ -228,7 +235,7 @@ var Game = function () {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
         for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], {}, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
+            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
         map = createMap(mapScale, [0, 0, 0],
@@ -256,7 +263,7 @@ var Game = function () {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ]);
         for (i = 0; i < map.length; i++) {
-            addEntity(models.cube, textures.box, map[i], { }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
+            addEntity(models.cube, textures.box, map[i], { tint : randTint() }, { stationary: true, type: "box", halfSize: [mapScale, mapScale, mapScale] });
         }
 
 

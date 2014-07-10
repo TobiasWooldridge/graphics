@@ -42,7 +42,6 @@ function createGraphicsEntity(baseEntity, texture, properties) {
         shininess: 0.65
     };
 
-
     for (var property in properties) {
         if (properties.hasOwnProperty(property)) {
             graphicsEntity[property] = properties[property];
