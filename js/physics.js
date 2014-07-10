@@ -83,7 +83,7 @@ function Physics() {
     }
 
     function detectSphereBoxCollision(sphere, box) {
-        var relCenter = subtractVector(sphere.position, box.position);
+        var relCenter = vec3.subtract(vec3.create(), sphere.position, box.position);
 
         var closestPoint = vec3.create();
 
@@ -125,7 +125,7 @@ function Physics() {
 
         // Update the sphere's collision
         var vr = vec3.create(), vt = vec3.create();
-        vec3.scale(vr, normal, dot(normal, sphere.velocity));
+        vec3.scale(vr, normal, vec3.dot(normal, sphere.velocity));
         vec3.subtract(vt, sphere.velocity, vr);
         vec3.scale(vr, vr, collisionDamping);
         vec3.sub(sphere.velocity, vt, vr);
@@ -200,9 +200,7 @@ function Physics() {
 
 
     function addEntities(newEntities) {
-        for (var i = 0; i < newEntities.length; i++) {
-            addEntities(newEntities[i]);
-        }
+        newEntities.map(addEntity);
     }
 
     function reset() {

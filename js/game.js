@@ -13,7 +13,7 @@ var Game = function () {
 
     function tick() {
         var mvMatrix = graphics.getViewMatrix();
-        var gravity = scaleVector(normalize([-mvMatrix[1], -mvMatrix[5], -mvMatrix[9]]), 5);
+        var gravity = vec3.scale(vec3.create(), vec3.normalize(vec3.create(), [-mvMatrix[1], -mvMatrix[5], -mvMatrix[9]]), 5);
 
         var start = window.performance.now();
 
@@ -71,7 +71,7 @@ var Game = function () {
         }
 
         function handleMovement(toPoint) {
-            var movement = subtractVector(startPoint, toPoint);
+            var movement = vec3.subtract(vec3.create(), startPoint, toPoint);
 
             graphics.getCameraAngle()[1] += (movement[0] / mouseSens * -180);
             graphics.getCameraAngle()[0] += (movement[1] / mouseSens * -180);
